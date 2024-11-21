@@ -1,0 +1,26 @@
+import { render, screen, fireEvent } from "@testing-library/react";
+import { FormGenerator } from "./components/FormGenerator";
+
+// Sample schema for testing
+const sampleSchema = {
+  formTitle: "Test Form",
+  formDescription: "This is a test form",
+  fields: [
+    {
+      id: "email",
+      type: "email",
+      label: "Email",
+      required: true,
+    },
+  ],
+};
+
+test("Form validation works correctly", () => {
+  render(<FormGenerator schema={sampleSchema} />);
+  
+  const submitButton = screen.getByText("Submit");
+  fireEvent.click(submitButton);
+  
+  // Check for validation error
+  expect(screen.getByText("This field is required")).toBeInTheDocument();
+});
