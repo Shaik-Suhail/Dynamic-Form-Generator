@@ -1,0 +1,64 @@
+import React from "react";
+import { useForm, SubmitHandler } from "react-hook-form";
+
+type FormSchema = {
+  formTitle: string;
+  formDescription: string;
+  fields: Array<{
+    id: string;
+    type: string;
+    label: string;
+    required?: boolean;
+    placeholder?: string;
+    options?: Array<{ value: string; label: string }>;
+    validation?: { pattern: string; message: string };
+  }>;
+};
+
+export const FormGenerator: React.FC<{ schema: FormSchema }> = ({ schema }) => {
+  const { register, handleSubmit, formState: { errors } } = useForm();
+  const onSubmit: SubmitHandler<any> = (data) => console.log("Form Submitted:", data);
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)} className="p-4">
+      <h2 className="text-2xl font-bold mb-4">{schema.formTitle}</h2>
+      <p className="mb-4">{schema.formDescription}</p>
+      {schema.fields.map((field) => (
+        <div key={field.id} className="mb-4">
+          <label htmlFor={field.id} className="block font-bold mb-1">{field.label}</label>
+          {field.type === "text" || field.type === "email" || field.type === "textarea" ? (
+            <input
+              id={field.id}
+              type={field.type}
+              placeholder={field.placeholder}
+              {...register(field.id, {
+                required: field.required,
+                pattern: field.validation?.pattern ? new RegExp(field.validation.pattern) : undefined
+              })}
+              className="border p-2 w-full"
+            />
+          ) : field.type === "select" ? (
+            <select id={field.id} {...register(field.id, { required: field.required })} className="border p-2 w-full">
+              {field.options?.map(option => <option value={option.value} key={option.value}>{option.label}</option>)}
+            </select>
+          ) : field.type === "radio" ? (
+            field.options?.map(option => (
+              <div key={option.value}>
+                <input
+                  type="radio"
+                  id={option.value}
+                  value={option.value}
+                  {...register(field.id, { required: field.required })}
+                  className="mr-2"
+                />
+                <label htmlFor={option.value}>{option.label}</label>
+              </div>
+            ))
+          ) : null}
+          {errors[field.id] && <p className="text-red-500">{field.validation?.message || "This field is required"}</p>}
+        </div>
+      ))}
+      <button type="submit" className="bg-blue-500 text-white py-2 px-4 rounded">Submit</button>
+    </form>
+  );
+};
