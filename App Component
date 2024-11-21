@@ -1,0 +1,27 @@
+import React, { useState } from "react";
+import { FormGenerator } from "./components/FormGenerator";
+import { JSONEditor } from "./components/JSONEditor";
+
+const App: React.FC = () => {
+  const [schema, setSchema] = useState<any>(null);
+
+  const handleSchemaUpdate = (newSchema: any) => {
+    setSchema(newSchema);
+  };
+
+  return (
+    <div className="container mx-auto p-4 flex flex-col lg:flex-row gap-8">
+      <div className="flex-1">
+        <h1 className="text-3xl font-bold mb-4">Dynamic Form Generator</h1>
+        
+        <JSONEditor onUpdate={handleSchemaUpdate} />
+      </div>
+      <div className="flex-1">
+        {/* Render Form Generator if schema is available */}
+        {schema && <FormGenerator schema={schema} />}
+      </div>
+    </div>
+  );
+};
+
+export default App;
