@@ -1,0 +1,14 @@
+Component Structure:
+bash
+Copy code
+/src
+  /components
+    JSONEditor.tsx       # JSON editor with validation
+    FormGenerator.tsx    # Generates the form based on JSON schema
+    FormField.tsx        # Renders individual fields
+  /utils
+    validation.ts        # JSON schema validation logic
+  /tests
+    formGenerator.test.tsx
+    responsive.test.tsx
+App.tsx                  # Main split-scre
