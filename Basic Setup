@@ -1,0 +1,25 @@
+Initial Project Setup:
+
+Create a new React project with TypeScript:
+
+bash
+npx create-react-app dynamic-form-generator --template typescript
+
+Install dependencies:
+bash
+npm install tailwindcss postcss autoprefixer react-hook-form react-json-view @types/react-json-view
+npm install jest @testing-library/react @testing-library/jest-dom --save-dev
+npm install playwright --save-dev
+
+Initialize Tailwind CSS:
+bash
+
+npx tailwindcss init
+Configure tailwind.config.js with a basic setup.
+
+Add Tailwind CSS to index.css:
+css
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
